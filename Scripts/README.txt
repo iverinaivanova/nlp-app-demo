@@ -18,7 +18,7 @@ it might be incompatible with the current version of the language model. URL: ht
 
 LOADING THE "nlpapp.py" IN THE IDE
 
-1. Make your way to the following directory: nlp_app_ling > venv > Scripts and then load the "nlpapp.py" in your IDE
+1. Make your way to the following directory: nlp-app-demo > Scripts and then load the "nlpapp.py" in your IDE
 
 2. Go the File > Settings > Project > Python Interpreter and make sure that the project is
 connected to the correct version of python 3.8.
