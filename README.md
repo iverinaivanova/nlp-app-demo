@@ -22,7 +22,7 @@ LOADING THE "nlpapp.py" IN THE IDE
 
 1. Make your way to the following directory: nlp-app-demo > Scripts and then load the "nlpapp.py" in your IDE
 
-2. Go the File > Settings > Project > Python Interpreter and make sure that the project is
+2. Go to the File > Settings > Project > Python Interpreter and make sure that the project is
 connected to the correct version of python 3.8.
 
 3. Add the following packages to your project (if they are not present in the current project). You can add the packages by
