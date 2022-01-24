@@ -44,7 +44,4 @@ RUNNING THE APP IN THE LOCAL BROWSER
 
 2. Then type the following command to run the app "streamlit run nlpapp.py"
 
-3. The app should load in your browser window.
-
-:-)
-
+3. The app should load in your browser window. :-)
