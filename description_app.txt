@@ -24,7 +24,7 @@ The current version of the app:
 
 This automated tool can find a good implementation in English teaching scenarios and more specifically, it can be a useful complement to
 teaching/learning English Grammar.
-The app can be dynamically updated with newer features such as a constituency parser, morphological analyzer, etc. depending on the 
+The app can be dynamically updated with more features such as a constituency parser, morphological analyzer, etc. depending on the 
 needs of the tutors.
 
 2. Packages:
