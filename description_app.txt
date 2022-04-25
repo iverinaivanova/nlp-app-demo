@@ -12,15 +12,16 @@ select the annotators they want to run on their input text.
 
 The current version of the app:
 
-- tokenizes the input sentence/text
-- assigns parts of speech to the tokens
-- extracts the lemmas
-- extracts the Noun Phrases (NPs)
-- extracts the lexical words from the input sentence/text
-- parses the dependency relations
-- visualizes the dependency relations
-- analyzes the sentiment of the text
-- extracts the keywords of the input text.
+    - tokenizes the input sentence/text
+    - assigns parts of speech to the tokens
+    - extracts the lemmas
+    - extracts the Noun Phrases (NPs)
+    - extracts the lexical words from the input sentence/text
+    - parses and visualizes the dependency relations
+    - parses the constituents
+    - analyzes the sentiment of the text
+    - extracts the keywords of the input text
+    - represents the semantic structure of sentences in formulas of first-order logic
 
 This automated tool can find a good implementation in English teaching scenarios and more specifically, it can be a useful complement to
 teaching/learning English Grammar.
