@@ -4,9 +4,19 @@ import os
 # from textblob import TextBlob
 import spacy
 import nltk
+import benepar
+import pytest
+import nltk.data
+from nltk.sem.logic import *
+from nltk.sem import Valuation, Model
+from nltk.sem import logic
+from nltk.sem.util import parse_sents
+from nltk.sem import cooper_storage as cs
+# benepar.download('benepar_en3')
 from nltk.sentiment import SentimentIntensityAnalyzer
 sentiment_analysis= SentimentIntensityAnalyzer()
-import numpy
+import numpy as np
+import pandas as pd
 # from nltk.corpus import treebank
 # from rake_nltk import Rake
 # r = Rake()
@@ -44,14 +54,28 @@ def dep_parser(my_text):
     nlp_data = [(token.text, token.dep_, token.head.text, token.head.pos_) for token in doc]
     return nlp_data
 
-# Dependency Visualizer
+
+def render_svg(svg):
+    b64 = base64.b64encode(svg.encode('utf-8')).decode("utf-8")
+    html = r'<img src="data:image/svg+xml;base64,%s"/>' % b64
+
+def render_svg(svg):
+    """Renders the given svg string."""
+    b64 = base64.b64encode(svg.encode('utf-8')).decode("utf-8")
+    html = r'<img src="data:image/svg+xml;base64,%s"/>' % b64
+    # st.write(html, unsafe_allow_html=True)
+    st.subheader("Visualizing the dependency relations between the tokens")
+    st.write(html, unsafe_allow_html=True)
+
 def dep_visualizer(my_text):
     doc = nlp(my_text)
     sentences = list(doc.sents)
     design_options = {"compact": False, "bg": "#ffffff",
-               "color": "#000000", "font": "Source Source Sans Pro"}
+                      "color": "#000000", "font": "Source Source Sans Pro"}
     nlp_data = displacy.render(sentences, style='dep', options=design_options)
+    render_svg(nlp_data)
     return nlp_data
+
 
 # Sentiment analyzer
 def sentiment_analyzer(my_text):
@@ -92,6 +116,51 @@ def keyword_extractor(my_text):
                     results.append(keyword)
         return results
 
+# Dependency Visualizer
+
+def const_parser(my_text):
+    if spacy.__version__.startswith('2'):
+        nlp.add_pipe(benepar.BeneparComponent("benepar_en3"))
+    else:
+        nlp.add_pipe("benepar", config={"model": "benepar_en3"})
+    doc = nlp(my_text)
+    sent = list(doc.sents)[0]
+    st.subheader("Constituents:")
+    st.code(sent._.parse_string)
+
+def sem_analyzer(my_text):
+    val = nltk.data.load('grammars/sample_grammars/valuation1.val')
+    dom = val.domain
+    m = Model(dom, val)
+    dom = val.domain
+    g = nltk.sem.Assignment(dom)
+    gramfile = 'grammars/sample_grammars/sem2.fcfg'
+    result = nltk.sem.util.interpret_sents([my_text], gramfile)[0]
+    for (semrep) in result:
+
+        # st.write()
+        st.subheader("Semantic representation")
+        # st.write(syntree)
+        # st.write()
+        st.code(semrep)
+        st.write(semrep)
+
+def sem_analyzer2(my_text):
+    val = nltk.data.load('grammars/sample_grammars/valuation1.val')
+    dom = val.domain
+    m = Model(dom, val)
+    dom = val.domain
+    g = nltk.sem.Assignment(dom)
+    trees = cs.parse_with_bindops(my_text, grammar='grammars/book_grammars/storage.fcfg')
+    sem = trees[0].label()['SEM']
+    cs_sem = cs.CooperStore(sem)
+    st.write(cs_sem.core)
+    for bo in cs_sem.store:
+        st.write(bo)
+    cs_sem.s_retrieve(trace=True)
+    for reading in cs_sem.readings:
+        st.write(reading)
+
     # Downloading the table as csv
 def download_table_as_csv(df):
     #csv = df.to_csv(index=False)
@@ -109,7 +178,7 @@ def main():
     st.sidebar.header("Annotator(s)")
     annotators = st.sidebar.multiselect("Select annotators", ["tokens & lemmas", "pos", "dependency rel",
                                                              "dep visualizer", "sentiment", "NP", "lexical words",
-                                                              "keywords"])
+                                                              "keywords", "constituents", "semantics_1", "semantics_2"])
     button1 = st.sidebar.button("Annotate")
     if button1:
         if "tokens & lemmas" in annotators:
@@ -147,8 +216,8 @@ def main():
 
         if "dep visualizer" in annotators:
             dep_rel = dep_visualizer(input_text)
-            st.subheader("Visualizing the dependency relations between the tokens")
-            st.image(dep_rel, width=10)
+            # st.subheader("Visualizing the dependency relations between the tokens")
+            # st.image(dep_rel, width=10)
 
 
         if "sentiment" in annotators:
@@ -192,6 +261,34 @@ def main():
             download_table = download_table_as_csv(df_keywords)
             st.write(download_table, unsafe_allow_html=True)
 
+        if "constituents" in annotators:
+            constituents = const_parser(input_text)
+
+
+    if "semantics_1" in annotators:
+        st.subheader("Sample Grammar")
+        col1, col2 = st.columns(2)
+        col1.subheader("Lexical items")
+        col1.write("*Det*: _every, a_  \n *PropN*: _Angus, Cyril_  \n  *N*: _bone, dog, girl, man_  \n *V*: _chases, feeds, gives, smiles, walks_  \n *P*: _to_")
+        col2.header("Phrase-structure rules")
+        col2.markdown("1: S -> NP\n VP  \n 2: NP -> Det\n N   \n 3: VP -> V\n NP   \n 4: VP -> VP\n NP\n PP  \n 5: PP -> P\n NP")
+
+        if button1:
+            sem_analysis2 = sem_analyzer2(input_text)
+
+
+    if "semantics_2" in annotators:
+        st.subheader("Sample Grammar")
+        col1, col2 = st.columns(2)
+        col1.subheader("Lexical items")
+        col1.write("*Det*: _every, all, some, a_  \n *PropN*: _John, Mary, Suzie, Fido, Noosa_  \n *N*: _girl, girls, boy, boys, dog, dogs_  \n *V*: _chases, chase, sees, see, barks, bark, walks, walk_  \n *P*: _in, with_")
+        col2.header("Phrase-structure rules")
+        col2.markdown("1: S -> NP\n VP  \n 2: NP -> Det\n Nom(inal)  \n 3: NP -> PropN  \n 4: Nom -> N\n PP  \n 5: VP -> V\n NP  \n 6: VP -> V  \n 7: VP -> VP\n PP  \n 8: PP -> P\n NP")
+        if button1:
+            sem_analysis = sem_analyzer(input_text)
+
+
+
     st.sidebar.markdown('''
     This Natural Language Processing (NLP) App: 
     - tokenizes the input sentence/text
@@ -199,10 +296,11 @@ def main():
     - extracts the lemmas
     - extracts the Noun Phrases (NPs)
     - extracts the lexical words from the input sentence/text
-    - parses the dependency relations
-    - visualizes the dependency relations
+    - parses and visualizes the dependency relations
+    - parses the constituents
     - analyzes the sentiment of the text
     - extracts the keywords of the input text
+    - represents the semantic structure of sentences in formulas of first-order logic
     '''
     )
 if __name__ == '__main__':
