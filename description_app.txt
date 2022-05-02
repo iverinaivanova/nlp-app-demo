@@ -35,7 +35,7 @@ It currently uses the following python packages:
 the extraction of content words, and parsing of the dependency relations), 
 - displacy - a spacy visualizer of the dependency relations between words,
 - NLTK VADER - an NLTK built-in pretrained model for sentiment analysis, 
-- benepar - the Berkeley Neural Parser with SpaCy,
+- benepar - the Berkeley Neural Parser with SpaCy for constituency analysis,
 - keybert - a Python package for the extraction of keywords which are most similar to the document.
 
 
