@@ -32,10 +32,11 @@ needs of the tutors.
 It currently uses the following python packages:
 - streamlit - a python library for producing web apps,
 - spacy - a python library for NLP (the library is used for the tokenization, the POS-tagging, the lemmatization, the NP chunking,
-the extraction of content words, and parsing of the dependency relations) 
-- displacy - a spacy visualizer of the dependency relations between words#
-- nltk - a Python library for NLP (used for sentiment analysis)
-- keybert - a Python package for the extraction of keywords.
+the extraction of content words, and parsing of the dependency relations), 
+- displacy - a spacy visualizer of the dependency relations between words,
+- NLTK VADER - an NLTK built-in pretrained model for sentiment analysis, 
+- benepar - the Berkeley Neural Parser with SpaCy,
+- keybert - a Python package for the extraction of keywords which are most similar to the document.
 
 
 3. How it works (for front-end users)
