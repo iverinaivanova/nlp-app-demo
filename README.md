@@ -1,6 +1,6 @@
 # nlp-app-demo
 
-======= Automated Linguistic Annotation =======
+======= Automated Linguistic Annotations =======
 
 HOW TO RUN THE APP
 
