@@ -26,7 +26,8 @@ LOADING THE "nlpapp.py" IN THE IDE
 connected to the correct version of python 3.8.
 
 3. Add the following packages to your project (if they are not present in the current project). You can add the packages by
-pressing the "+" symbol.
+clicking on File > Settings > Project:nlpapp.py. The list of packages should load and you can add a package by clicking the "+" symbol. 
+Then type the name of the package and install it.
 
 Packages:
 - streamlit (a python library for building web apps; URL: https://streamlit.io/)
