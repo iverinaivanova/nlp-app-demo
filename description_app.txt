@@ -40,10 +40,9 @@ the extraction of content words, and parsing of the dependency relations),
 - keybert - a python package for the extraction of keywords which are most similar to the document.
 
 
-3. How it works (for front-end users)
-
-2.1. First, enter your text in the text area.
-2.2. Then, choose the annotator(s) you want to run on your text.
-2.3. Finally, press the "Analyze" button.
-2.4. The annotations will appear in the main section below the text area.
-2.5. The annotations are stored in tables which can be downloaded as csv files for further analysis.
+3. How it works 
+3.1. First, enter your text in the text area.
+3.2. Then, choose the annotator(s) you want to run on your text.
+3.3. Finally, press the "Analyze" button.
+3.4. The annotations will appear in the main section below the text area.
+3.5. The annotations are stored in tables which can be downloaded as csv files for further analysis.
